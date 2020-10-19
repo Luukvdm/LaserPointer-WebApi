@@ -1,0 +1,194 @@
+
+/* GruvBox theme https://github.com/gruvbox-community/gruvbox */
+:root {
+    /*--bg: #282828;
+    --fg: #ebdbb2;
+    --red: #cc241d;
+    --bright-red: #fb4934;
+    --green: #98971a;
+    --bright-green: #b8bb26;
+    --yellow: #d79921;
+    --bright-yellow: #fabd2f;
+    --blue: #458588;
+    --bright-blue: #83a598;
+    --purple: #b16286;
+    --bright-purple: #d3869b;
+    --aqua: #689d6a;
+    --bright-aqua: #8ec07c;
+    --gray: #a89984;
+    --bright-gray: #928374;
+    
+    --bg0_h: #1d2021;
+    --bg0: #282828;
+    --bg1: #3c3836;
+    --bg2: #504945;
+    --bg3: #665c54;
+    --bg4: #7c6f64;
+    --bg-gray: #928374;
+    --bg-orange: #d65d0e;
+    --bg-bright-orange: #fe8019;
+    --bg0_s: #32302f;
+    --fg4: #a89984;
+    --fg3: #bdae93;
+    --fg2: #d5c4a1;
+    --fg1: #ebdbb2;
+    --fg0: #fbf1c7;*/
+
+    --green: #98971a;
+
+    --dark0_hard: #1d2021;
+    --dark0: #282828;
+    --dark0_soft: #32302f;
+    --dark1: #3c3836;
+    --dark2: #504945;
+    --dark3: #665c54;
+    --dark4: #7c6f64;
+    --dark4_256: #7c6f64;
+
+    --gray: #928374;
+
+    --light0_hard: #f9f5d7;
+    --light0: #fbf1c7;
+    --light0_soft: #f2e5bc;
+    --light1: #ebdbb2;
+    --light2: #d5c4a1;
+    --light3: #bdae93;
+    --light4: #a89984;
+
+    --bright_red: #fb4934;
+    --bright_green: #b8bb26;
+    --bright_yellow: #fabd2f;
+    --bright_blue: #83a598;
+    --bright_purple: #d3869b;
+    --bright_aqua: #8ec07c;
+    --bright_orange: #fe8019;
+
+    --neutral_red: #cc241d;
+    --neutral_green: #98971a;
+    --neutral_yellow: #d79921;
+    --neutral_blue: #458588;
+    --neutral_purple: #b16286;
+    --neutral_aqua: #689d6a;
+    --neutral_orange: #d65d0e;
+
+    --faded_red: #9d0006;
+    --faded_green: #79740e;
+    --faded_yellow: #b57614;
+    --faded_blue: #076678;
+    --faded_purple: #8f3f71;
+    --faded_aqua: #427b58;
+    --faded_orange: #af3a03;
+    
+}
+
+
+body {
+    background: var(--dark0);
+    color: var(--light3);
+}
+
+a {
+    color: var(--neutral_aqua);
+}
+
+a:hover {
+    color: var(--bright_aqua);
+}
+
+.btn, .btn-primary, .btn-primary:visited {
+    color: var(--dark0_hard);
+    background-color: var(--light4);
+    border-color: var(--dark4);
+}
+
+/* Bootstrap, how the fuck does it work ... */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    color: var(--dark0_hard) !important;
+    background: var(--light2) !important;
+    background-color: var(--light2) !important;
+    border-color: var(--dark4) !important;
+}
+
+.navbar {
+    background: var(--light2);
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: var(--bright_yellow);
+    background: var(--dark2);
+    border-color: var(--dark1);
+}
+
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.container {
+    max-width: 960px;
+}
+
+.pricing-header {
+    max-width: 700px;
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 124px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-height: 124px;
+    overflow: hidden;
+    padding: 40px 0;
+    text-align: center;
+    background: var(--dark0_hard);
+}
+
+footer > .container {
+    line-height: normal;
+    color: var(--dark4);
+    margin: 0 auto;
+}
