@@ -1,6 +1,8 @@
 
 /* GruvBox theme https://github.com/gruvbox-community/gruvbox */
 :root {
+    --main-color: #eab354;
+    --main-highlight-color: #ffa930;
     /*--bg: #282828;
     --fg: #ebdbb2;
     --red: #cc241d;
@@ -97,20 +99,20 @@ a:hover {
 
 .btn, .btn-primary, .btn-primary:visited {
     color: var(--dark0_hard);
-    background-color: var(--light4);
+    background-color: var(--main-color) !important;
     border-color: var(--dark4);
 }
 
 /* Bootstrap, how the fuck does it work ... */
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
     color: var(--dark0_hard) !important;
-    background: var(--light2) !important;
-    background-color: var(--light2) !important;
+    background: var(--main-highlight-color) !important;
+    background-color: var(--main-highlight-color) !important;
     border-color: var(--dark4) !important;
 }
 
 .navbar {
-    background: var(--light2);
+    background: var(--main-color);
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -118,7 +120,6 @@ a:hover {
     background: var(--dark2);
     border-color: var(--dark1);
 }
-
 
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\
 for details on configuring this project to bundle and minify static web assets. */
