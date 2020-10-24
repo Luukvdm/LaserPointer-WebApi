@@ -32,7 +32,7 @@ namespace LaserPointer.WebApi.WebApi
                     }
 
                     var dateTime = services.GetRequiredService<IDateTime>();
-                    // await ApplicationDbContextSeed.SeedSampleDataAsync(context, dateTime);
+                    await ApplicationDbContextSeed.SeedSampleDataAsync(context, dateTime);
                 }
                 catch (Exception ex)
                 {

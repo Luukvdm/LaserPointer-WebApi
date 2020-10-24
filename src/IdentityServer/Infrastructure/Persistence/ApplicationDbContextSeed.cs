@@ -9,7 +9,7 @@ namespace LaserPointer.IdentityServer.Infrastructure.Persistence
     {
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager)
         {
-            var defaultUser = new ApplicationUser { UserName = "admin", Email = "admin@laserpointer.com" };
+            var defaultUser = new ApplicationUser { UserName = "admin@laserpointer.com", Email = "admin@laserpointer.com" };
 
             if (userManager.Users.All(u => u.UserName != defaultUser.UserName))
             {
