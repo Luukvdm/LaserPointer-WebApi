@@ -37,5 +37,11 @@
     <Folder Include="sqlite" />
     <Folder Include="wwwroot\Identity" />
   </ItemGroup>
+    
+  <ItemGroup>
+    <None Update="lp.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>
