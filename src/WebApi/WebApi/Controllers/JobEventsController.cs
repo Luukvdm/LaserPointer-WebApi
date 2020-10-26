@@ -1,13 +1,14 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using LaserPointer.WebApi.Application.Features.Jobs.Queries.GetUnfinishedJobsQuery;
 using LaserPointer.WebApi.WebApi.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaserPointer.WebApi.WebApi.Controllers
 {
-    [Route("jobEvents")]
     public class JobEventsController : ApiController
     {
         private readonly IServerSentEventsService _sseService;
@@ -17,20 +18,23 @@ namespace LaserPointer.WebApi.WebApi.Controllers
             _sseService = sseService;
         }
 
-        [HttpGet("getactive")]
+        [HttpGet("active")]
         public async Task<ActionResult<UnfinishedJobsVm>> GetActive()
         {
             return await Mediator.Send(new GetUnfinishedJobsQuery());
         }
         
-        [HttpGet("getactivestream")]
-        public async Task GetActiveStream(CancellationToken cancellationToken)
+        [HttpGet("activeStream")]
+        public async Task GetActiveStream()
         {
             var response = Response;
 
-            response.ContentType = "text/event-stream";
-            await response.Body.FlushAsync(cancellationToken);
+            Response.StatusCode = 200;
+            response.Headers.Add("Content-Type", "text/event-stream");
+            // response.ContentType = "text/event-stream";
             
+            await Response.Body.FlushAsync();
+
             var client = new ServerSentEventsClient(response);
             var clientId = _sseService.AddClient(client);
 

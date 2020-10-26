@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
-using LaserPointer.WebApi.Application.Common.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LaserPointer.WebApi.WebApi.Services
@@ -32,17 +31,23 @@ namespace LaserPointer.WebApi.WebApi.Services
             return client;
         }
 
-        public Task SendEventAsync(ServerSentEvent msg)
+        public async Task SendEventAsync(IServerSentEvent msg)
         {
-            if (msg.ClientId.HasValue)
+            await SendEventAsync(msg, null);
+        }
+
+        public async Task SendEventAsync(IServerSentEvent msg, Guid? clientId)
+        {
+            if (clientId.HasValue)
             {
-                _logger.LogDebug($"Sending SSE to client id {msg.ClientId.Value}");
-                return _clients[msg.ClientId.Value].SendEventAsync(msg.Message);
+                _logger.LogInformation($"Sending SSE to client id {clientId.Value}");
+                await _clients[clientId.Value].SendEventAsync(msg);
+                return;
             }
 
-            _logger.LogDebug($"Sending SSE to all {_clients.Count} clients");
-            var clientTasks = _clients.Select(client => client.Value.SendEventAsync(msg.Message)).ToList();
-            return Task.WhenAll(clientTasks);
+            _logger.LogInformation($"Sending SSE to all {_clients.Count} clients");
+            var clientTasks = _clients.Select(client => client.Value.SendEventAsync(msg)).ToList();
+            await Task.WhenAll(clientTasks);
         }
     }
 }

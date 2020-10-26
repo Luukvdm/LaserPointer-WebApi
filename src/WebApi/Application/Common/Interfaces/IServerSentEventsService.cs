@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using LaserPointer.WebApi.Application.Common.Models;
 
 namespace LaserPointer.WebApi.Application.Common.Interfaces
 {
@@ -8,6 +7,7 @@ namespace LaserPointer.WebApi.Application.Common.Interfaces
     {
         Guid AddClient(IServerSentEventsClient client);
         IServerSentEventsClient RemoveClient(Guid clientId);
-        Task SendEventAsync(ServerSentEvent msg);
+        Task SendEventAsync(IServerSentEvent msg, Guid? clientId);
+        Task SendEventAsync(IServerSentEvent msg);
     }
 }

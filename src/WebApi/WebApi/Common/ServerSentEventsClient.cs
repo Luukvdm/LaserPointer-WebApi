@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
+using LaserPointer.WebApi.WebApi.Sse;
 using Microsoft.AspNetCore.Http;
 
 namespace LaserPointer.WebApi.WebApi.Common
@@ -22,10 +20,9 @@ namespace LaserPointer.WebApi.WebApi.Common
             return _response.WriteAsync(JsonSerializer.Serialize(msg));
         }
 
-        public Task SendEventAsync(IList<object> msg)
+        public Task SendEventAsync(IServerSentEvent msg)
         {
-            var sendTasks = msg.Select(subMsg => _response.WriteAsync(JsonSerializer.Serialize(subMsg))).ToList();
-            return Task.WhenAll(sendTasks);
+            return _response.WriteSseEventAsync(msg);
         }
     }
 }

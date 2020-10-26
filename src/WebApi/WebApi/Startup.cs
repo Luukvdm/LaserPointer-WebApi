@@ -1,10 +1,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FluentValidation.AspNetCore;
 using LaserPointer.WebApi.Application;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using LaserPointer.WebApi.Application.Common.Models;
 using LaserPointer.WebApi.Infrastructure;
 using LaserPointer.WebApi.Infrastructure.Persistence;
+using LaserPointer.WebApi.WebApi.BackgroundServices;
 using LaserPointer.WebApi.WebApi.Filters;
 using LaserPointer.WebApi.WebApi.Services;
 using Microsoft.AspNetCore.Builder;
@@ -49,16 +51,19 @@ public class Startup
 			services.AddControllers(options =>
 			{
 				options.Filters.Add(new ApiExceptionFilterAttribute());
-			}).AddJsonOptions(options =>
+            }).AddJsonOptions(options =>
 			{
 				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
-			});
+			}).AddFluentValidation();
 
 			// Customise default API behaviour
 			services.Configure<ApiBehaviorOptions>(options =>
 			{
 				options.SuppressModelStateInvalidFilter = true;
 			});
+            
+            // Temp Hash cracking service TODO: Remove in the future
+            services.AddSingleton<IHostedService, HashCrackerService>();
         }
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GlobalSettings globalSettings)
@@ -68,15 +73,15 @@ public class Startup
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
-				app.UseForwardedHeaders();
 			}
 			else
 			{
 				app.UseExceptionHandler("/Error");
-				app.UseForwardedHeaders();
 				app.UseHsts();
-			}
-
+                app.UseHttpsRedirection();
+            }
+            
+            app.UseForwardedHeaders();
             app.UseHealthChecks("/health");
 			app.UseRouting();
 
@@ -86,7 +91,12 @@ public class Startup
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+			app.UseEndpoints(endpoints => { 
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}"
+                ); 
+            });
 		}
 	}
 }

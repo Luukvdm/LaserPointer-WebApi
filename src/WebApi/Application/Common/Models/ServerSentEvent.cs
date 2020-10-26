@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using LaserPointer.WebApi.Application.Common.Interfaces;
 
 namespace LaserPointer.WebApi.Application.Common.Models
 {
-    public class ServerSentEvent
+    public class ServerSentEvent : IServerSentEvent
     {
-        public ServerSentEvent()
+        public ServerSentEvent(string type, params object[] data)
         {
-            Message = new List<object>();
+            Id = Guid.NewGuid().ToString();
+            Data = data;
+            Type = type;
         }
-        public Guid? ClientId { get; set; }
-        public IList<object> Message { get; private set; }
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public IList<object> Data { get; }
     }
 }

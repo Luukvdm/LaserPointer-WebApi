@@ -18,7 +18,7 @@ namespace LaserPointer.WebApi.Domain.Entities {
 		public JobStatus Status {
 			get => _status;
 			set {
-                DomainEvents.Add(new JobStatusChangedEvent(this, value, _status));
+                if(this.Status != _status) DomainEvents.Add(new JobStatusChangedEvent(this, value, _status));
 				_status = value;
 			} 
 		}

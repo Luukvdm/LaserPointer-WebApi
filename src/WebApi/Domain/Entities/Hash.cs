@@ -4,5 +4,5 @@ namespace LaserPointer.WebApi.Domain.Entities {
         public Job Job { get; set; }
 		public byte[] Value { get; set; }
         public string PlainValue { get; set; }
-	}
+    }
 }
