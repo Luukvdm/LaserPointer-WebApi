@@ -11,9 +11,9 @@ namespace LaserPointer.WebApi.WebApi.Controllers
 {
     public class JobEventsController : ApiController
     {
-        private readonly IServerSentEventsService _sseService;
+        private readonly IClientEventService _sseService;
 
-        public JobEventsController(IServerSentEventsService sseService)
+        public JobEventsController(IClientEventService sseService)
         {
             _sseService = sseService;
         }
@@ -35,7 +35,7 @@ namespace LaserPointer.WebApi.WebApi.Controllers
             
             await Response.Body.FlushAsync();
 
-            var client = new ServerSentEventsClient(response);
+            var client = new ClientEventDispatcher(response);
             var clientId = _sseService.AddClient(client);
 
             response.HttpContext.RequestAborted.WaitHandle.WaitOne();

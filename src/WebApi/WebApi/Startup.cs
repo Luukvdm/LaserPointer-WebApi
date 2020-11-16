@@ -50,7 +50,7 @@ public class Startup
             services.AddApplication();
 			services.AddInfrastructure(Configuration, Environment, globalSettings);
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddSingleton<IServerSentEventsService, ServerSentEventsService>();
+            services.AddSingleton<IClientEventService, ClientEventService>();
 			services.AddHttpContextAccessor();
 			services.AddHealthChecks().AddDbContextCheck<ApplicationDbContext>();
 

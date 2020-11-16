@@ -12,14 +12,14 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.EventHandlers
     public class JobStatusChangedEventHandler : INotificationHandler<DomainEventNotification<JobStatusChangedEvent>>
     {
         private readonly ILogger<JobStatusChangedEventHandler> _logger;
-        private readonly IServerSentEventsService _sse;
+        private readonly IClientEventService _clientEventService;
         private readonly ICurrentUserService _currentUser;
         private readonly GlobalSettings _globalSettings;
 
-        public JobStatusChangedEventHandler(ILogger<JobStatusChangedEventHandler> logger, IServerSentEventsService sse, ICurrentUserService currentUser, GlobalSettings globalSettings)
+        public JobStatusChangedEventHandler(ILogger<JobStatusChangedEventHandler> logger, IClientEventService clientEventService, ICurrentUserService currentUser, GlobalSettings globalSettings)
         {
             _logger = logger;
-            _sse = sse;
+            _clientEventService = clientEventService;
             _currentUser = currentUser;
             _globalSettings = globalSettings;
         }
@@ -37,7 +37,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.EventHandlers
                 newStatus: domainEvent.NewStatus,
                 oldStatus: domainEvent.OldStatus
             );
-            _sse.SendEventAsync(jEvent.GetAsServerSentEvent());
+            _clientEventService.SendEventAsync(jEvent.GetAsClientEvent());
 
             return Task.CompletedTask;
         }

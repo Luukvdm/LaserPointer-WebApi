@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace LaserPointer.WebApi.Application.Common.Interfaces
 {
-    public interface IServerSentEventsService
+    public interface IClientEventService
     {
-        Guid AddClient(IServerSentEventsClient client);
-        IServerSentEventsClient RemoveClient(Guid clientId);
+        Guid AddClient(IClientEventDispatcher clientEventDispatcher);
+        IClientEventDispatcher RemoveClient(Guid clientId);
         Task SendEventAsync(IClientEvent msg, Guid? clientId);
         Task SendEventAsync(IClientEvent msg);
     }

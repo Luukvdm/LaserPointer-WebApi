@@ -10,7 +10,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.ClientEvents
     }
     public static class JobUpdateEventExtension
     {
-        public static ClientEvent GetAsServerSentEvent(this JobUpdateEvent jobUpdateEvent)
+        public static ClientEvent GetAsClientEvent(this JobUpdateEvent jobUpdateEvent)
         {
             var type = jobUpdateEvent.OldStatus == null ? JobUpdateType.New : JobUpdateType.StatusChange;
             

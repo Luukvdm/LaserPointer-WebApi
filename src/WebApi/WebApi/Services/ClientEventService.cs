@@ -10,7 +10,7 @@ namespace LaserPointer.WebApi.WebApi.Services
 {
     public class ClientEventService : IClientEventService
     {
-        private readonly ConcurrentDictionary<Guid, IServerSentEventsClient> _clients;
+        private readonly ConcurrentDictionary<Guid, IClientEventDispatcher> _clients;
         private readonly ILogger<ClientEventService> _logger;
         private readonly GlobalSettings _globalSettings;
 
@@ -18,17 +18,17 @@ namespace LaserPointer.WebApi.WebApi.Services
         {
             _logger = logger;
             _globalSettings = globalSettings;
-            _clients = new ConcurrentDictionary<Guid, IServerSentEventsClient>();
+            _clients = new ConcurrentDictionary<Guid, IClientEventDispatcher>();
         }
 
-        public Guid AddClient(IServerSentEventsClient client)
+        public Guid AddClient(IClientEventDispatcher clientEventDispatcher)
         {
             var clientId = Guid.NewGuid();
-            _clients.TryAdd(clientId, client);
+            _clients.TryAdd(clientId, clientEventDispatcher);
             return clientId;
         }
 
-        public IServerSentEventsClient RemoveClient(Guid clientId)
+        public IClientEventDispatcher RemoveClient(Guid clientId)
         {
             _clients.TryRemove(clientId, out var client);
             return client;
@@ -43,7 +43,7 @@ namespace LaserPointer.WebApi.WebApi.Services
         {
             if (clientId.HasValue)
             {
-                _logger.LogInformation($"Sending SSE to client id {clientId.Value}");
+                _logger.LogInformation($"Sending SSE to clientEventDispatcher id {clientId.Value}");
                 await _clients[clientId.Value].SendEventAsync(msg);
                 return;
             }

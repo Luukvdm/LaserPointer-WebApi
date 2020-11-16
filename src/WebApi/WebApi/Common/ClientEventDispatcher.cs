@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace LaserPointer.WebApi.WebApi.Common
 {
-    public class ServerSentEventsClient : IServerSentEventsClient
+    public class ClientEventDispatcher : IClientEventDispatcher
     {
         private readonly HttpResponse _response;
 
-        internal ServerSentEventsClient(HttpResponse response)
+        internal ClientEventDispatcher(HttpResponse response)
         {
             _response = response;
         }
