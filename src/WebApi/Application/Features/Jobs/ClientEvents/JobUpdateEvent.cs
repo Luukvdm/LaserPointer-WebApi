@@ -1,7 +1,26 @@
-﻿using LaserPointer.WebApi.Domain.Enums;
+﻿using LaserPointer.WebApi.Application.Common.Models;
+using LaserPointer.WebApi.Domain.Enums;
 
-namespace LaserPointer.WebApi.Application.Features.Jobs.SseService
+namespace LaserPointer.WebApi.Application.Features.Jobs.ClientEvents
 {
+    public enum JobUpdateType
+    {
+        StatusChange,
+        New
+    }
+    public static class JobUpdateEventExtension
+    {
+        public static ClientEvent GetAsServerSentEvent(this JobUpdateEvent jobUpdateEvent)
+        {
+            var type = jobUpdateEvent.OldStatus == null ? JobUpdateType.New : JobUpdateType.StatusChange;
+            
+            // Set first char to lower
+            string strType = type.ToString();
+            strType = char.ToLower(type.ToString()[0]) + strType.Substring(1);
+            
+            return new ClientEvent(strType, jobUpdateEvent);
+        }
+    }
     public class JobUpdateEvent
     {
         /// <summary>
@@ -31,4 +50,5 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.SseService
         public JobStatus? NewStatus { get; protected set; }
 
     }
+    
 }

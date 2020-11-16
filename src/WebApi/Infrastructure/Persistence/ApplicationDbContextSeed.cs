@@ -12,18 +12,16 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence
         public static async Task SeedSampleDataAsync(ApplicationDbContext context, IDateTime dateTime)
         {
             // Seed, if necessary
-            if (!context.Jobs.Any())
-            {
+            // if (!context.Jobs.Any())
+            // {
                 context.Jobs.Add(new Job
                 {
-                    Id = 1,
                     Status = JobStatus.InQueue,
                     HashType = HashType.Sha256,
                     HashesToCrack =
                     {
                         new Hash
                         {
-                            Id = 1,
                             Value = new byte[32] { 0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1 },
                             PlainValue = ""
                         }
@@ -31,7 +29,7 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence
                 });
 
                 await context.SaveChangesAsync();
-            }
+            // }
         } 
     }
 }

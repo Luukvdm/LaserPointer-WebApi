@@ -12,16 +12,17 @@ namespace LaserPointer.WebApi.Infrastructure.Services
     {
         private readonly ILogger<DomainEventService> _logger;
         private readonly IMediator _mediator;
+        private readonly GlobalSettings _globalSettings;
 
-        public DomainEventService(ILogger<DomainEventService> logger, IMediator mediator)
+        public DomainEventService(ILogger<DomainEventService> logger, IMediator mediator, GlobalSettings globalSettings)
         {
             _logger = logger;
             _mediator = mediator;
+            _globalSettings = globalSettings;
         }
 
         public async Task Publish(DomainEvent domainEvent)
         {
-            _logger.LogInformation("Publishing domain event. Event - {event}", domainEvent.GetType().Name);
             await _mediator.Publish(GetNotificationCorrespondingToDomainEvent(domainEvent));
         }
 

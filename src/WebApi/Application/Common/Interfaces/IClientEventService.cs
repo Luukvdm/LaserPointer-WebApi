@@ -7,7 +7,7 @@ namespace LaserPointer.WebApi.Application.Common.Interfaces
     {
         Guid AddClient(IServerSentEventsClient client);
         IServerSentEventsClient RemoveClient(Guid clientId);
-        Task SendEventAsync(IServerSentEvent msg, Guid? clientId);
-        Task SendEventAsync(IServerSentEvent msg);
+        Task SendEventAsync(IClientEvent msg, Guid? clientId);
+        Task SendEventAsync(IClientEvent msg);
     }
 }

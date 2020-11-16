@@ -20,7 +20,7 @@ namespace LaserPointer.WebApi.WebApi.Common
             return _response.WriteAsync(JsonSerializer.Serialize(msg));
         }
 
-        public Task SendEventAsync(IServerSentEvent msg)
+        public Task SendEventAsync(IClientEvent msg)
         {
             return _response.WriteSseEventAsync(msg);
         }

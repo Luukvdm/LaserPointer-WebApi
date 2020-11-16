@@ -3,6 +3,7 @@ using System.Security.Claims;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityServer4.AccessTokenValidation;
+using LaserPointer.WebApi.Application.Common.Behaviours;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using LaserPointer.WebApi.Application.Common.Models;
 using LaserPointer.WebApi.Infrastructure.Persistence;

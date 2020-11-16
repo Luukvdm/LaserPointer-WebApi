@@ -4,6 +4,6 @@ namespace LaserPointer.WebApi.Application.Common.Interfaces
 {
     public interface IServerSentEventsClient
     {
-        Task SendEventAsync(IServerSentEvent msg);
+        Task SendEventAsync(IClientEvent msg);
     }
 }

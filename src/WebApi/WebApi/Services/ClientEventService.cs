@@ -3,18 +3,21 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
+using LaserPointer.WebApi.Application.Common.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LaserPointer.WebApi.WebApi.Services
 {
-    public class ServerSentEventsService : IServerSentEventsService
+    public class ClientEventService : IClientEventService
     {
         private readonly ConcurrentDictionary<Guid, IServerSentEventsClient> _clients;
-        private readonly ILogger<ServerSentEventsService> _logger;
+        private readonly ILogger<ClientEventService> _logger;
+        private readonly GlobalSettings _globalSettings;
 
-        public ServerSentEventsService(ILogger<ServerSentEventsService> logger)
+        public ClientEventService(ILogger<ClientEventService> logger, GlobalSettings globalSettings)
         {
             _logger = logger;
+            _globalSettings = globalSettings;
             _clients = new ConcurrentDictionary<Guid, IServerSentEventsClient>();
         }
 
@@ -31,12 +34,12 @@ namespace LaserPointer.WebApi.WebApi.Services
             return client;
         }
 
-        public async Task SendEventAsync(IServerSentEvent msg)
+        public async Task SendEventAsync(IClientEvent msg)
         {
             await SendEventAsync(msg, null);
         }
 
-        public async Task SendEventAsync(IServerSentEvent msg, Guid? clientId)
+        public async Task SendEventAsync(IClientEvent msg, Guid? clientId)
         {
             if (clientId.HasValue)
             {
@@ -45,7 +48,8 @@ namespace LaserPointer.WebApi.WebApi.Services
                 return;
             }
 
-            _logger.LogInformation($"Sending SSE to all {_clients.Count} clients");
+            _logger.LogInformation("{ProjectName} SSE event: {MessageType} {ClientCount}",
+                _globalSettings.ProjectName, msg.Type, _clients.Count);
             var clientTasks = _clients.Select(client => client.Value.SendEventAsync(msg)).ToList();
             await Task.WhenAll(clientTasks);
         }

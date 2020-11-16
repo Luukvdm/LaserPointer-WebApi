@@ -2,7 +2,7 @@
 
 namespace LaserPointer.WebApi.Application.Common.Interfaces
 {
-    public interface IServerSentEvent
+    public interface IClientEvent
     {
         public string Id { get; set; }
         public string Type { get; set; }

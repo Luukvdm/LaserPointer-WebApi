@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace LaserPointer.WebApi.WebApi
 {
@@ -36,8 +37,7 @@ namespace LaserPointer.WebApi.WebApi
                 }
                 catch (Exception ex)
                 {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+                    Log.Error(ex, "An error occurred while migrating or seeding the database.");
                     throw;
                 }
             }
@@ -48,6 +48,7 @@ namespace LaserPointer.WebApi.WebApi
         // ReSharper disable once MemberCanBePrivate.Global
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
     }
 }

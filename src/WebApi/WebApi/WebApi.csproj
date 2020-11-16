@@ -20,10 +20,10 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="3.1.9" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="sqlite" />
+      <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+      <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+      <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     </ItemGroup>
     
 </Project>

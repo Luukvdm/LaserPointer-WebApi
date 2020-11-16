@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace LaserPointer.WebApi.WebApi {
 public class Startup
@@ -35,13 +36,18 @@ public class Startup
             Configuration.GetSection("GlobalSettings").Bind(globalSettings);
             services.AddSingleton(s => globalSettings);
 
+            // Logging
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
+            
 			services.Configure<ForwardedHeadersOptions>(options =>
 			{
 				options.ForwardedHeaders =
 					ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 			});
 
-			services.AddApplication();
+            services.AddApplication();
 			services.AddInfrastructure(Configuration, Environment, globalSettings);
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddSingleton<IServerSentEventsService, ServerSentEventsService>();
@@ -69,11 +75,12 @@ public class Startup
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GlobalSettings globalSettings)
 		{
 			app.UsePathBase(globalSettings.BasePath);
-			if (env.IsDevelopment())
+
+            if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
-			}
+            }
 			else
 			{
 				app.UseExceptionHandler("/Error");
@@ -81,6 +88,9 @@ public class Startup
                 app.UseHttpsRedirection();
             }
             
+            // Logging
+            app.UseSerilogRequestLogging();
+
             app.UseForwardedHeaders();
             app.UseHealthChecks("/health");
 			app.UseRouting();

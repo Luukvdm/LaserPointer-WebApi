@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace LaserPointer.WebApi.Application.Common.Behaviours
 {
-    public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
+    public class RequestLoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
     {
         private readonly ILogger _logger;
         private readonly ICurrentUserService _currentUserService;
         private readonly GlobalSettings _globalSettings;
         
-        public LoggingBehaviour(ILogger<TRequest> logger, ICurrentUserService currentUserService, GlobalSettings globalSettings)
+        public RequestLoggingBehaviour(ILogger<TRequest> logger, ICurrentUserService currentUserService, GlobalSettings globalSettings)
         {
             _logger = logger;
             _currentUserService = currentUserService;
@@ -24,14 +24,9 @@ namespace LaserPointer.WebApi.Application.Common.Behaviours
         {
             string requestName = typeof(TRequest).Name;
             string userId = _currentUserService.UserId ?? string.Empty;
-            string userName = string.Empty;
+            string userName = _currentUserService.UserEmail;
 
-            if (!string.IsNullOrEmpty(userId))
-            {
-                userName = _currentUserService.UserEmail;
-            }
-
-            _logger.LogInformation("{ProjectName} Request: {Name} {@UserId} {@UserName} {@Request}",
+            _logger.LogInformation("{ProjectName} Request: {Name} {UserId} {UserName} {@Request}",
                 _globalSettings.ProjectName, requestName, userId, userName, request);
             
             return Task.CompletedTask;

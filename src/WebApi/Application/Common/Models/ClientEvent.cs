@@ -4,9 +4,9 @@ using LaserPointer.WebApi.Application.Common.Interfaces;
 
 namespace LaserPointer.WebApi.Application.Common.Models
 {
-    public class ServerSentEvent : IServerSentEvent
+    public class ClientEvent : IClientEvent
     {
-        public ServerSentEvent(string type, params object[] data)
+        public ClientEvent(string type, params object[] data)
         {
             Id = Guid.NewGuid().ToString();
             Data = data;
