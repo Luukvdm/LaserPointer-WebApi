@@ -95,8 +95,8 @@ public class Startup
             app.UseHealthChecks("/health");
 			app.UseRouting();
 
-			app.UseCors(policy => policy.WithOrigins(globalSettings.BaseServiceUri.ClientApp)
-				.AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+			/* app.UseCors(policy => policy.WithOrigins(globalSettings.BaseServiceUri.ClientApp)
+				.AllowAnyMethod().AllowAnyHeader().AllowCredentials()); */
 
 			app.UseAuthentication();
 			app.UseAuthorization();

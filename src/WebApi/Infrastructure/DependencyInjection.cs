@@ -49,9 +49,9 @@ namespace LaserPointer.WebApi.Infrastructure
 				.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
 				.AddIdentityServerAuthentication(options =>
 				{
-					options.Authority = globalSettings.BaseServiceUri.Identity;
+					options.Authority = globalSettings.IdentityAuthority;
 					options.RequireHttpsMetadata = !environment.IsDevelopment() &&
-					                               globalSettings.BaseServiceUri.Identity.StartsWith("https");
+					                               globalSettings.IdentityAuthority.StartsWith("https");
 					options.ApiSecret = globalSettings.IdentitySecret;
 					options.TokenRetriever = TokenRetrieval.FromAuthorizationHeader();
 					options.NameClaimType = ClaimTypes.Email;

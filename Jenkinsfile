@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('test') {
+        /* stage('test') {
             steps {
 		script {
 		    def test = docker.build("lp-tests", "-f ./dockerfiles/Dockerfile-Test ./")
@@ -10,9 +10,9 @@ pipeline {
 		    }
 		}
             }
-        }
+        } */
 
-	stage('build Backend image') {
+	stage('Build Images') {
 	    steps {
 		script {
 		    def webapi = docker.build("luukvdm/lp-webapi", "-f ./dockerfiles/Dockerfile-WebApi ./")
