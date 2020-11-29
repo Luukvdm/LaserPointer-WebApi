@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using IdentityServer4;
 using IdentityServer4.Models;
 using LaserPointer.IdentityServer.Common.Interfaces;
@@ -57,6 +58,7 @@ namespace LaserPointer.IdentityServer
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(); */
             
             var clients = configuration.GetSection("IdentityServer:Oid-Clients");
+            // Console.WriteLine(configuration.GetSection("IdentityServer:Oid-Clients:0:ClientId").Value);
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>()
                 .AddInMemoryClients(clients);

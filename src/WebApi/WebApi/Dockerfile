@@ -6,13 +6,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/WebApi/WebApi/WebApi.csproj", "src/WebApi/"]
-COPY ["src/WebApi/Application/Application.csproj", "src/Application/"]
-COPY ["src/WebApi/Domain/Domain.csproj", "src/Domain/"]
-COPY ["src/WebApi/Infrastructure/Infrastructure.csproj", "src/Infrastructure/"]
-RUN dotnet restore "src/WebApi/WebApi.csproj"
+COPY ["src/WebApi/WebApi/WebApi.csproj", "src/WebApi/WebApi/"]
+COPY ["src/WebApi/Application/Application.csproj", "src/WebApi/Application/"]
+COPY ["src/WebApi/Domain/Domain.csproj", "src/WebApi/Domain/"]
+COPY ["src/WebApi/Infrastructure/Infrastructure.csproj", "src/WebApi/Infrastructure/"]
+RUN dotnet restore "src/WebApi/WebApi/WebApi.csproj"
 COPY . .
-WORKDIR "/src/src/WebApi"
+WORKDIR "/src/src/WebApi/WebApi"
 RUN dotnet build "WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish

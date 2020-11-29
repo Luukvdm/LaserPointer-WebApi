@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Serilog;
 
 namespace LaserPointer.WebApi.WebApi {
@@ -75,7 +76,8 @@ public class Startup
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GlobalSettings globalSettings)
 		{
 			app.UsePathBase(globalSettings.BasePath);
-
+            IdentityModelEventSource.ShowPII = true; 
+            
             if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

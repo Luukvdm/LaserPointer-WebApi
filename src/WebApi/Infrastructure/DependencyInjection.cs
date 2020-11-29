@@ -34,6 +34,7 @@ namespace LaserPointer.WebApi.Infrastructure
 			else
 			{
 				Console.WriteLine("Using DefaultConnection string");
+                Console.WriteLine(configuration.GetSection("ConnectionStrings:DefaultConnection").Value);
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseSqlite(configuration.GetConnectionString("DefaultConnection"),
 						b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));

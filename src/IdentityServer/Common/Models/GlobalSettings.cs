@@ -5,6 +5,6 @@
         public virtual string SiteName { get; set; }
         public virtual string ProjectName { get; set; }
         public virtual string BasePath { get; set; }
-        public virtual string IdentitySecret { get; set; }
+        public virtual string BaseUrl { get; set; }
     }
 }

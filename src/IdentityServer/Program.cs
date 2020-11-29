@@ -1,13 +1,16 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using LaserPointer.IdentityServer.Infrastructure.Identity;
 using LaserPointer.IdentityServer.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace LaserPointer.IdentityServer
 {
@@ -48,8 +51,19 @@ namespace LaserPointer.IdentityServer
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .UseSerilog()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddEnvironmentVariables();
+                    config.AddCommandLine(args);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+        }
     }
 }

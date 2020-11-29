@@ -1,4 +1,6 @@
+using System;
 using LaserPointer.IdentityServer.Common.Models;
+using LaserPointer.IdentityServer.Infrastructure.Identity;
 using LaserPointer.IdentityServer.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -30,6 +33,11 @@ namespace LaserPointer.IdentityServer
 				options.ForwardedHeaders =
 					ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 			});
+            
+            // Logging
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
 
             services.AddBaseServices(Configuration);
             services.AddPersistence(Configuration);
@@ -43,7 +51,7 @@ namespace LaserPointer.IdentityServer
 			// Customise default API behaviour
 			services.Configure<ApiBehaviorOptions>(options =>
 			{
-				options.SuppressModelStateInvalidFilter = true;
+                options.SuppressModelStateInvalidFilter = true;
 			});
 		}
 
@@ -63,8 +71,12 @@ namespace LaserPointer.IdentityServer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
+            // Logging
+            app.UseSerilogRequestLogging();
+            
 			app.UseHealthChecks("/health");
 			app.UseStaticFiles();
+            app.UseMiddleware<PublicFacingUrlMiddleware>();
 
             app.UseCors(policy => policy.SetIsOriginAllowed(h => true)
                 .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
