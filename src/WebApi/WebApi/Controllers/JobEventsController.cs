@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using LaserPointer.WebApi.Application.Features.Jobs.Queries.GetUnfinishedJobsQuery;
 using LaserPointer.WebApi.WebApi.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaserPointer.WebApi.WebApi.Controllers
 {
+    [Authorize]
     public class JobEventsController : ApiController
     {
         private readonly IClientEventService _sseService;
@@ -19,12 +21,14 @@ namespace LaserPointer.WebApi.WebApi.Controllers
         }
 
         [HttpGet("active")]
+        [AllowAnonymous]
         public async Task<ActionResult<UnfinishedJobsVm>> GetActive()
         {
             return await Mediator.Send(new GetUnfinishedJobsQuery());
         }
         
         [HttpGet("activeStream")]
+        [AllowAnonymous]
         public async Task GetActiveStream()
         {
             var response = Response;
