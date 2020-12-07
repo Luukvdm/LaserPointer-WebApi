@@ -15,13 +15,13 @@ pipeline {
 	stage('Build Images') {
 	    steps {
 		script {
-		    def webapi = docker.build("luukvdm/lp-webapi", "-f ./dockerfiles/Dockerfile-WebApi ./")
+		    def webapi = docker.build("luukvdm/lp-webapi", "-f ./src/WebApi/WebApi/Dockerfile ./")
 		    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 			schemaapi.push("${env.BUILD_NUMBER}")
 			schemaapi.push("latest")
 		    }
 
-		    def identityserver = docker.build("luukvdm/lp-identityserver", "-f ./dockerfiles/Dockerfile-IdentityServer ./")
+		    def identityserver = docker.build("luukvdm/lp-identityserver", "-f ./src/IdentityServer/Dockerfile ./")
 		    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 			identityserver.push("${env.BUILD_NUMBER}")
 			identityserver.push("latest")
