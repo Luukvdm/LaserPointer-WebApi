@@ -6,6 +6,6 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetUnfinishedJob
     public class UnfinishedJobsVm
     {
         public UnfinishedJobsVm(IList<JobDto> jobs) => Jobs = jobs;
-        public IList<JobDto> Jobs { get; set; }
+        private IList<JobDto> Jobs { get; set; }
     }
 }
