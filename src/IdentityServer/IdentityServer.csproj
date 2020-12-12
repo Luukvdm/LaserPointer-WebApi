@@ -44,7 +44,15 @@
     
   <ItemGroup>
     <Content Remove="wwwroot\Identity\css\site.css" />
-    <EmbeddedResource Include="wwwroot\Identity\css\site.css" />
+    <EmbeddedResource Include="wwwroot\Identity\css\site.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Remove="wwwroot\favicon.ico" />
+    <EmbeddedResource Include="wwwroot\favicon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   
 </Project>
