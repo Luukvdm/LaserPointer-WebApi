@@ -29,9 +29,10 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetMyJobsQuery
         public async Task<MyJobsVm> Handle(GetMyJobsQuery request, CancellationToken cancellationToken)
         {
             var jobs = await _context.Jobs
+                .Include(j => j.HashesToCrack)
                 .Where(j => j.CreatedBy == _currentUser.UserId)
                 .ProjectTo<MyJobDto>(_mapper.ConfigurationProvider)
-                .OrderBy(j => j.Status)
+                .OrderByDescending(j => j.Created)
                 .ToListAsync(cancellationToken);
             return new MyJobsVm(jobs);
         }
