@@ -43,14 +43,14 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Commands.CreateJobComman
                 if (usersJobs.Count > 1) throw new UserLimitException(typeof(Job).ToString(), _currentUser.UserId);
             }
 
-            var hashes = request.HexHashes.Select(e => new Hash().FromHexString(e));
+            var hashes = request.HexHashes.Select(e => new Hash().FromHexString(e)).ToList();
             var job = new Job
             {
                 Status = JobStatus.InQueue,
                 HashType = request.HashType
             };
-            job.HashesToCrack.ToList().AddRange(hashes);
-
+            ((List<Hash>) job.HashesToCrack).AddRange(hashes);
+            // job.HashesToCrack.ToList().AddRange(hashes);
             job.DomainEvents.Add(new JobCreatedEvent(job));
             
             _context.Jobs.Add(job);

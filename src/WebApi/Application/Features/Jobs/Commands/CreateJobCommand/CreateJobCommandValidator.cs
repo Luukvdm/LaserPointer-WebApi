@@ -8,6 +8,8 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Commands.CreateJobComman
         {
             RuleFor(j => j.HashType)
                 .NotNull();
+           
+            RuleFor(j => j.HexHashes).NotEmpty();
             
             // TODO create a dynamic length per hash type (not all hashes are 64 chars in hex)
             // Better solution might be to create a HashType entity in the domain layer ...
