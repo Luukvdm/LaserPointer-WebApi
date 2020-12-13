@@ -68,6 +68,8 @@ public class Startup
 			{
 				options.SuppressModelStateInvalidFilter = true;
 			});
+
+            services.AddCors();
             
             // Temp Hash cracking service TODO: Remove in the future
             services.AddSingleton<IHostedService, HashCrackerService>();
@@ -82,6 +84,12 @@ public class Startup
 			{
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
+            
+                app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // allow any origin
+                    .AllowCredentials()); // allow credentials
             }
 			else
 			{

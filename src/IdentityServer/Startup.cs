@@ -63,6 +63,12 @@ namespace LaserPointer.IdentityServer
 				app.UseDeveloperExceptionPage();
 				app.UseDatabaseErrorPage();
 				app.UseForwardedHeaders();
+                
+                app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // allow any origin
+                    .AllowCredentials()); // allow credentials
 			}
 			else
 			{
@@ -77,9 +83,6 @@ namespace LaserPointer.IdentityServer
 			app.UseHealthChecks("/health");
 			app.UseStaticFiles();
             app.UseMiddleware<PublicFacingUrlMiddleware>();
-
-            app.UseCors(policy => policy.SetIsOriginAllowed(h => true)
-                .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
 			app.UseRouting();
 

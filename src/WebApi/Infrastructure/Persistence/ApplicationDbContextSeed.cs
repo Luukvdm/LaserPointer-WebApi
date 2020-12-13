@@ -14,7 +14,7 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence
             // Seed, if necessary
             // if (!context.Jobs.Any())
             // {
-                context.Jobs.Add(new Job
+                /*context.Jobs.Add(new Job
                 {
                     Status = JobStatus.InQueue,
                     HashType = HashType.Sha256,
@@ -28,7 +28,7 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence
                     }
                 });
 
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync();*/
             // }
         } 
     }

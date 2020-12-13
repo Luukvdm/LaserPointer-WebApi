@@ -70,35 +70,5 @@ namespace LaserPointer.IdentityServer
 
             return services;
         }
-        public static IEnumerable<Client> Clients() =>
-            new List<Client>
-            {
-                new Client
-                {
-                    ClientId = "LaserPointer.WebClient",
-                    ClientName = "LaserPointer.WebClient",
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequirePkce = true,
-                    RequireClientSecret = false,
-                    AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false,
-                    RedirectUris
-                        =
-                        {
-                            "http://localhost:8080/oidc/callback", 
-                            "https://localhost:8080/oidc/callback"
-                        },
-                    PostLogoutRedirectUris = { "http://localhost:8080/" },
-                    AllowedCorsOrigins = { "http://localhost:8080" },
-                    
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
-                        "LaserPointer.IdentityServer.IdentityServerAPI"
-                    }
-                }
-            };
     }
 }
