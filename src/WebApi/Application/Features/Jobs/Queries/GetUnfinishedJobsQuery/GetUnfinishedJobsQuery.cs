@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,11 +11,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetUnfinishedJobsQuery
 {
-    public class GetUnfinishedJobsQuery : IRequest<UnfinishedJobsVm>
+    public class GetUnfinishedJobsQuery : IRequest<IList<JobDto>>
     {
     }
     
-    public class GetJobsQueryHandler : IRequestHandler<GetUnfinishedJobsQuery, UnfinishedJobsVm>
+    public class GetJobsQueryHandler : IRequestHandler<GetUnfinishedJobsQuery, IList<JobDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -25,12 +26,12 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetUnfinishedJob
             _mapper = mapper;
         }
 
-        public async Task<UnfinishedJobsVm> Handle(GetUnfinishedJobsQuery request, CancellationToken cancellationToken)
+        public async Task<IList<JobDto>> Handle(GetUnfinishedJobsQuery request, CancellationToken cancellationToken)
         {
             var jobs = await _context.Jobs
                 .ProjectTo<JobDto>(_mapper.ConfigurationProvider)
                 .Where(j => j.Status != JobStatus.Done).ToListAsync(cancellationToken);
-            return new UnfinishedJobsVm(jobs);
+            return jobs;
         }
     }
 }

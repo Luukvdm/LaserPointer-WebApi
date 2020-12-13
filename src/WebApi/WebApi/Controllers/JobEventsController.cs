@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
@@ -22,7 +23,7 @@ namespace LaserPointer.WebApi.WebApi.Controllers
 
         [HttpGet("active")]
         [AllowAnonymous]
-        public async Task<ActionResult<UnfinishedJobsVm>> GetActive()
+        public async Task<IList<JobDto>> GetActive()
         {
             return await Mediator.Send(new GetUnfinishedJobsQuery());
         }
