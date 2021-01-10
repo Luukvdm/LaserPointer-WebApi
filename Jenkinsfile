@@ -19,8 +19,7 @@ pipeline {
 		    sh "docker pull nosinovacao/dotnet-sonar:latest"
 		    sh '''docker run --rm \
 			-v ${WORKSPACE}:/source \
-			-e SONAR_HOST_URL="${SONAR_HOST_URL}" \
-			-e SONAR_LOGIN="${SONAR_AUTH_TOKEN}" \
+			--network cd_lp_network \
 			nosinovacao/dotnet-sonar:latest \
 			bash -c "cd /source \
 			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /version:buildVersion \
