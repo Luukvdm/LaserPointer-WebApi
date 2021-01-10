@@ -18,7 +18,7 @@ pipeline {
 		    // To lazy to create my own image and this one looks pretty good
 		    sh "docker pull nosinovacao/dotnet-sonar:latest"
 		    sh '''docker run --rm -v ${workspace}:/source nosinovacao/dotnet-sonar:latest \
-			bash -c 'cd /source \
+			bash -c "cd /source \
 			&& dotnet /sonar-sacnner/SonarScanner.MSBuild.dll begin /k:${SONAR_AUTH_TOKEN} /version:buildVersion \
 			&& dotnet restore \
 			&& dotnet build -c Release \
