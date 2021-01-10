@@ -14,7 +14,7 @@ pipeline {
 
 	stage('build && SonarQube analysis') {
             steps {
-                withSonarQubeEnv('My SonarQube Server') {
+                withSonarQubeEnv('MySonarqubeServer') {
 		    // To lazy to create my own image and this one looks pretty good
 		    sh "docker pull nosinovacao/dotnet-sonar:latest"
 		    withSonarQubeEnv('sonarqube') {
