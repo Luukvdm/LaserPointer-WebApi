@@ -22,7 +22,7 @@ pipeline {
 			--network cd_lp_network \
 			nosinovacao/dotnet-sonar:latest \
 			bash -c "cd source \
-			ls -la \
+			&& ls -la \
 			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /version:buildVersion \
 			/d:sonar.host.url='${SONAR_HOST_URL}' /d:sonar.login='${SONAR_AUTH_TOKEN}' \
 			&& dotnet restore \
