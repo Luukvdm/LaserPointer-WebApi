@@ -17,9 +17,8 @@ pipeline {
                 withSonarQubeEnv('MySonarqubeServer') {
 		    script {
 			// To lazy to create my own image and this one looks pretty good
-			docker.image('nosinovacao/dotnet-sonar:latest').inside("-v ${WORKSPACE}:/source --network cd_lp_network") {
+			docker.image('nosinovacao/dotnet-sonar:latest').inside("-v ${WORKSPACE}:/source --network cd_lp_network -u root") {
 			    sh 'cd /source'
-			    sh 'ls -la'
 			    sh '''dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:"laserpointer-webapi" /version:buildVersion \
 				/d:sonar.host.url="${SONAR_HOST_URL}" /d:sonar.login="${SONAR_AUTH_TOKEN}"'''
 			    sh 'dotnet restore'
