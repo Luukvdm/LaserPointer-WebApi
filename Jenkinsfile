@@ -18,9 +18,10 @@ pipeline {
 		    // To lazy to create my own image and this one looks pretty good
 		    sh "docker pull nosinovacao/dotnet-sonar:latest"
 		    sh '''docker run --rm \
-			-v ${WORKSPACE}:/source nosinovacao/dotnet-sonar:latest \
+			-v ${WORKSPACE}:/source \
 			-e SONAR_HOST_URL="${SONAR_HOST_URL}" \
 			-e SONAR_LOGIN="${SONAR_AUTH_TOKEN}" \
+			nosinovacao/dotnet-sonar:latest \
 			bash -c "cd /source \
 			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /version:buildVersion \
 			&& dotnet restore \
