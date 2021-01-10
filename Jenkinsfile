@@ -22,7 +22,7 @@ pipeline {
 			&& dotnet /sonar-sacnner/SonarScanner.MSBuild.dll begin /k:${SONAR_AUTH_TOKEN} /version:buildVersion \
 			&& dotnet restore \
 			&& dotnet build -c Release \
-			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll end'''
+			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll end"'''
                 }
             }
         }
