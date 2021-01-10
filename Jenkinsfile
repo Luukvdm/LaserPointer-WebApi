@@ -20,7 +20,7 @@ pipeline {
 		    sh '''docker run --rm \
 			-v ${WORKSPACE}:/source nosinovacao/dotnet-sonar:latest \
 			-e SONAR_HOST_URL="${SONAR_HOST_URL}" \
-			-e SONAR_LOGIN=${SONAR_AUTH_TOKEN}" \
+			-e SONAR_LOGIN="${SONAR_AUTH_TOKEN}" \
 			bash -c "cd /source \
 			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /version:buildVersion \
 			&& dotnet restore \
