@@ -17,12 +17,15 @@ pipeline {
                 withSonarQubeEnv('MySonarqubeServer') {
 		    // To lazy to create my own image and this one looks pretty good
 		    sh "docker pull nosinovacao/dotnet-sonar:latest"
-		    sh '''docker run --rm -v ${WORKSPACE}:/source nosinovacao/dotnet-sonar:latest \
+		    sh '''docker run --rm \
+			-v ${WORKSPACE}:/source nosinovacao/dotnet-sonar:latest \
+			-e SONAR_HOST_URL="${SONAR_HOST_URL}" \
+			-e SONAR_LOGIN=${SONAR_AUTH_TOKEN}" \
 			bash -c "cd /source \
-			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /d:sonar.login='${SONAR_AUTH_TOKEN}' /version:buildVersion \
+			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll begin /k:'laserpointer-webapi' /version:buildVersion \
 			&& dotnet restore \
 			&& dotnet build -c Release \
-			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll /d:sonar.login='${SONAR_AUTH_TOKEN}' end"'''
+			&& dotnet /sonar-scanner/SonarScanner.MSBuild.dll end"'''
                 }
             }
         }
