@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
@@ -17,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace LaserPointer.WebApi.WebApi {
@@ -73,6 +77,39 @@ public class Startup
             
             // Temp Hash cracking service TODO: Remove in the future
             services.AddSingleton<IHostedService, HashCrackerService>();
+            
+            services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations();
+                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+                
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{globalSettings.IdentityAuthority}/connect/authorize"),
+                            TokenUrl = new Uri($"{globalSettings.IdentityAuthority}/connect/token"),
+                            Scopes = globalSettings.IdentityScopes
+                        }
+                    }
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                        },
+                        globalSettings.IdentityRequiredPolicies
+                    }
+                });
+            });
         }
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env, GlobalSettings globalSettings)
@@ -103,20 +140,32 @@ public class Startup
 
             app.UseForwardedHeaders();
             app.UseHealthChecks("/health");
-			app.UseRouting();
 
 			/* app.UseCors(policy => policy.WithOrigins(globalSettings.BaseServiceUri.ClientApp)
 				.AllowAnyMethod().AllowAnyHeader().AllowCredentials()); */
 
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "LaserPointer");
+                c.OAuthClientId("");
+                c.OAuthClientSecret(""); // globalSettings.IdentitySecret
+                c.OAuthAppName("LaserPointer Swagger UI");
+                c.OAuthScopeSeparator(" ");
+                c.OAuthUsePkce();
+            });
+            
+			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints => { 
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}"
                 ); 
             });
-		}
+
+        }
 	}
 }
