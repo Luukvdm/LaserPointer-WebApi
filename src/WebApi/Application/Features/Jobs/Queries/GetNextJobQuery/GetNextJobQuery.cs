@@ -28,6 +28,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetNextJobQuery
                 .Where(j => j.Status == JobStatus.InQueue)
                 .OrderBy(j => j.Created)
                 .Include(j => j.HashesToCrack)
+                .Include(j => j.HashAlgo)
                 .FirstOrDefaultAsync(cancellationToken);
 
             return job;

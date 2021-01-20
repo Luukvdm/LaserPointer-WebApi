@@ -89,7 +89,7 @@ namespace LaserPointer.WebApi.WebApi.BackgroundServices
                 // Lets ignore unfinished jobs (like this application) for now
                 await mediator.Send(new UpdateJobCommand {Id = job.Id, JobStatus = JobStatus.InProgress}, cancellationToken);
                 
-                if (job.HashType == HashType.Sha256)
+                if (job.HashAlgo.Type == HashAlgoType.Sha256)
                 {
                     var sha = new SHA256Managed();
                     foreach (var toCrack in job.HashesToCrack)

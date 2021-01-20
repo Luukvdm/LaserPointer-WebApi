@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Configuration.Conventions;
 using AutoMapper.QueryableExtensions;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using MediatR;

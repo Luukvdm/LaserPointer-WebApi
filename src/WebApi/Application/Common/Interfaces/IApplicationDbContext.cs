@@ -10,6 +10,7 @@ namespace LaserPointer.WebApi.Application.Common.Interfaces
         DbSet<Job> Jobs { get; set; }
 
         DbSet<Hash> Hashes { get; set; }
+        DbSet<HashAlgo> HashAlgos { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

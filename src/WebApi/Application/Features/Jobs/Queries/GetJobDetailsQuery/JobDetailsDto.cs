@@ -10,7 +10,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Queries.GetJobDetailsQue
     public class JobDetailsDto : IMapFrom<Job>
     {
         public int Id { get; set; }
-        public HashType HashType { get; set; }
+        public HashAlgoType HashType { get; set; }
         public JobStatus Status { get; set; }
         public DateTime Created { get; set; }
         public DateTime? LastModified { get; set; }

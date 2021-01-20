@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LaserPointer.WebApi.Application.Common.Interfaces;
 using LaserPointer.WebApi.Domain.Entities;
 using LaserPointer.WebApi.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaserPointer.WebApi.Infrastructure.Persistence
 {
@@ -30,6 +31,15 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence
 
                 await context.SaveChangesAsync();*/
             // }
+
+            // Clean up hash algorithms in database
+            context.RemoveRange(await context.HashAlgos.ToListAsync());
+            await context.SaveChangesAsync();
+            
+            // Seed all the possible algorithms
+            await context.HashAlgos.AddAsync(new HashAlgo {Type = HashAlgoType.Sha256, Format = "\b[a-fA-F\\d]{64}\b"});
+            await context.HashAlgos.AddAsync(new HashAlgo {Type = HashAlgoType.Md5, Format = "\b[a-fA-F\\d]{32}\b"});
+            await context.SaveChangesAsync();
         } 
     }
 }

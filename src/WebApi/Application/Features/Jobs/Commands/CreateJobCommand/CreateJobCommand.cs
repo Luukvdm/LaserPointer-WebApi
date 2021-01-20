@@ -15,7 +15,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Commands.CreateJobComman
 {
     public class CreateJobCommand : IRequest<int>
     {
-        public HashType HashType { get; set; }
+        public int HashAlgoId { get; set; }
         public IList<string> HexHashes { get; set; }
     }
 
@@ -47,7 +47,7 @@ namespace LaserPointer.WebApi.Application.Features.Jobs.Commands.CreateJobComman
             var job = new Job
             {
                 Status = JobStatus.InQueue,
-                HashType = request.HashType
+                HashAlgoId = request.HashAlgoId
             };
             ((List<Hash>) job.HashesToCrack).AddRange(hashes);
             // job.HashesToCrack.ToList().AddRange(hashes);

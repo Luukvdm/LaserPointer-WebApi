@@ -14,12 +14,12 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence.Configurations
             
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.HashType).HasConversion(new EnumToStringConverter<HashType>())
-                .IsRequired();
             
             builder.Property(e => e.Status).HasConversion(new EnumToNumberConverter<JobStatus, int>())
                 .IsRequired();
 
+            builder.HasOne<HashAlgo>().WithMany(e => e.Jobs).HasForeignKey(e => e.HashAlgoId);
+            
             builder.HasMany(e => e.HashesToCrack)
                 .WithOne(e => e.Job);
         }

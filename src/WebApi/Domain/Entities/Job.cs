@@ -12,7 +12,8 @@ namespace LaserPointer.WebApi.Domain.Entities {
         }        
         
 		public int Id { get; set; }
-		public HashType HashType { get; set; }
+        public int HashAlgoId { get; set; }
+		public HashAlgo HashAlgo { get; set; }
         public IList<Hash> HashesToCrack { get; private set; }
 		private JobStatus _status = JobStatus.InQueue;
 		public JobStatus Status {
