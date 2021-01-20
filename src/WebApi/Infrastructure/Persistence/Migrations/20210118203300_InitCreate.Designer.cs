@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaserPointer.WebApi.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201022202604_InitCreate")]
+    [Migration("20210118203300_InitCreate")]
     partial class InitCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9");
+                .HasAnnotation("ProductVersion", "3.1.10");
 
             modelBuilder.Entity("LaserPointer.WebApi.Domain.Entities.Hash", b =>
                 {
@@ -42,6 +42,27 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence.Migrations
                     b.ToTable("Hashes");
                 });
 
+            modelBuilder.Entity("LaserPointer.WebApi.Domain.Entities.HashAlgo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Format")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Type");
+
+                    b.ToTable("HashAlgos");
+                });
+
             modelBuilder.Entity("LaserPointer.WebApi.Domain.Entities.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -54,9 +75,11 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("HashType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("HashAlgoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("HashAlgoId1")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("TEXT");
@@ -69,6 +92,10 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HashAlgoId");
+
+                    b.HasIndex("HashAlgoId1");
+
                     b.ToTable("Jobs");
                 });
 
@@ -77,6 +104,19 @@ namespace LaserPointer.WebApi.Infrastructure.Persistence.Migrations
                     b.HasOne("LaserPointer.WebApi.Domain.Entities.Job", "Job")
                         .WithMany("HashesToCrack")
                         .HasForeignKey("JobId");
+                });
+
+            modelBuilder.Entity("LaserPointer.WebApi.Domain.Entities.Job", b =>
+                {
+                    b.HasOne("LaserPointer.WebApi.Domain.Entities.HashAlgo", null)
+                        .WithMany("Jobs")
+                        .HasForeignKey("HashAlgoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LaserPointer.WebApi.Domain.Entities.HashAlgo", "HashAlgo")
+                        .WithMany()
+                        .HasForeignKey("HashAlgoId1");
                 });
 #pragma warning restore 612, 618
         }
