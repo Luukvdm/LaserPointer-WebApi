@@ -90,6 +90,11 @@ public class Startup
                     Type = SecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows
                     {
+                        /* ClientCredentials = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{globalSettings.IdentityAuthority}/connect/authorize"),
+                            TokenUrl = new Uri($"{globalSettings.IdentityAuthority}/connect/token")
+                        }, */
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
                             AuthorizationUrl = new Uri($"{globalSettings.IdentityAuthority}/connect/authorize"),
@@ -149,8 +154,8 @@ public class Startup
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "LaserPointer");
+                c.OAuthClientSecret(globalSettings.IdentitySecret); // globalSettings.IdentitySecret
                 c.OAuthClientId("");
-                c.OAuthClientSecret(""); // globalSettings.IdentitySecret
                 c.OAuthAppName("LaserPointer Swagger UI");
                 c.OAuthScopeSeparator(" ");
                 c.OAuthUsePkce();

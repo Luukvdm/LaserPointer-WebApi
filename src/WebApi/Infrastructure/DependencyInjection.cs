@@ -61,11 +61,11 @@ namespace LaserPointer.WebApi.Infrastructure
 
 			services.AddAuthorization(config =>
 			{
-				/* config.AddPolicy("Application", policy =>
+				config.AddPolicy("Application", policy =>
 				{
 					policy.RequireAuthenticatedUser();
 					policy.RequireClaim(JwtClaimTypes.Scope, "WebApi");
-				}); */
+				});
 			});
 
 			if (environment.IsDevelopment())
