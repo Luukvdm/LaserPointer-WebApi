@@ -4,6 +4,7 @@ namespace LaserPointer.WebApi.Application.Common.Models
 {
     public class GlobalSettings
     {
+        public virtual string AesSecret { get; set; }
         public virtual string SiteName { get; set; }
         public virtual string ProjectName { get; set; }
         public virtual string BasePath { get; set; }

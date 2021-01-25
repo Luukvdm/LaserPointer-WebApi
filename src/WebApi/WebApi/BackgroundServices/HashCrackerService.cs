@@ -104,7 +104,9 @@ namespace LaserPointer.WebApi.WebApi.BackgroundServices
                             }
 
                             // Yay !
-                            toCrack.PlainValue = guess;
+                            // toCrack.PlainValue = guess;
+                            await mediator.Send(new UpdateHashCommand {Id = toCrack.Id, PlainValue = guess },
+                                cancellationToken);
                             break;
                         }
                     }
@@ -120,14 +122,14 @@ namespace LaserPointer.WebApi.WebApi.BackgroundServices
                 _logger.LogTrace("{ProjectName} HashCrackerService: Finished job, going to update db", _globalSettings.ProjectName);
                 
                 // Kinda lazy but whatever
-                foreach (var hash in job.HashesToCrack)
+                /* foreach (var hash in job.HashesToCrack)
                 {
                     if (!string.IsNullOrEmpty(hash.PlainValue))
                     {
                         await mediator.Send(new UpdateHashCommand {Id = hash.Id, PlainValue = hash.PlainValue},
                             cancellationToken);
                     }
-                }
+                } */
                 
                 // Update the db with cracking results
                 await mediator.Send(new UpdateJobCommand {Id = job.Id, JobStatus = JobStatus.Done}, cancellationToken);

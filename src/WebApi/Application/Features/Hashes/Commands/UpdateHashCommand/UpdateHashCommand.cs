@@ -16,10 +16,12 @@ namespace LaserPointer.WebApi.Application.Features.Hashes.Commands.UpdateHashCom
     public class UpdateHashCommandHandler : IRequestHandler<UpdateHashCommand>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IHashCryptoService _hashCrypto;
 
-        public UpdateHashCommandHandler(IApplicationDbContext context)
+        public UpdateHashCommandHandler(IApplicationDbContext context, IHashCryptoService hashCrypto)
         {
             _context = context;
+            _hashCrypto = hashCrypto;
         }
 
         public async Task<Unit> Handle(UpdateHashCommand request, CancellationToken cancellationToken)
@@ -31,7 +33,7 @@ namespace LaserPointer.WebApi.Application.Features.Hashes.Commands.UpdateHashCom
                 throw new NotFoundException(nameof(Hash), request.Id);
             }
 
-            hash.PlainValue = request.PlainValue;
+            hash.PlainValue = _hashCrypto.EncryptPlainTextValue(request.PlainValue);
 
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;

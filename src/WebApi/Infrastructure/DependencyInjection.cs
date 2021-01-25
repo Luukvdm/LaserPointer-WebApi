@@ -45,6 +45,7 @@ namespace LaserPointer.WebApi.Infrastructure
             services.AddScoped<IDomainEventService, DomainEventService>();
 
 			services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IHashCryptoService, HashCryptoService>();
 
             services
 				.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)

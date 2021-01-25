@@ -19,8 +19,4 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Common\Helpers" />
-    </ItemGroup>
-
 </Project>
